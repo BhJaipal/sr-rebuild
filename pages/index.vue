@@ -42,4 +42,7 @@ let { data } = useAsyncData("info", () =>
 .points {
 	list-style-type: none;
 }
+ul {
+	@apply grid grid-cols-3;
+}
 </style>
