@@ -1,5 +1,25 @@
 <script setup lang="ts">
-let { data } = useAsyncData("info", () => queryContent("/info").find());
+let { data } = useAsyncData("info", () =>
+	queryContent("/info").find()
+) as unknown as {
+	data: [
+		{
+			body: [
+				{
+					name: string;
+					info: [
+						{
+							name: string;
+							head: string;
+							description: string;
+							points: string[];
+						}
+					];
+				}
+			];
+		}
+	];
+};
 </script>
 <template>
 	<div>
