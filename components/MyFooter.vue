@@ -7,38 +7,67 @@ let iconsInfo = [
 	},
 ];
 let services = [
-	[{ name: "SEO" }, { name: "PPC" }],
 	[
+		{ name: "SEO" },
+		{ name: "PPC" },
 		{ name: "Reputation Management" },
 		{ name: "Web Development" },
-		{ name: "Social Media" },
 	],
-	[{ name: "Marketing automation" }, { name: "Industries" }],
+	[
+		{ name: "Marketing automation" },
+		{ name: "Social Media" },
+		{ name: "Industries" },
+	],
 ];
 let websiteRoutes = [
 	[
 		{ name: "Home", url: "/" },
 		{ name: "About and Contact us", url: "/about" },
-	],
-	[
 		{ name: "Admin login", url: "/admin-login" },
 		{ name: "Admin dashboard", url: "/admin-dashboard" },
 		{ name: "User form", url: "/user-form" },
 	],
 ];
+let industryServices = [
+	{ name: "Luxury Communities" },
+	{ name: "Franchise" },
+	{ name: "E-Commerce" },
+	{ name: "Real Estate" },
+	{ name: "Health care" },
+];
 </script>
 <template>
 	<footer>
 		<section id="sr-pages" class="flex flex-col">
-			<div class="grid grid-cols-2">
-				<div class="flex pt-3 items-center justify-center">
-					<h2>Services</h2>
+			<div class="grid grid-cols-4">
+				<div
+					class="flex pt-3 items-center justify-start pl-[20%] col-span-2"
+				>
+					<h2>
+						<span
+							class="underline decoration-orange-600 decoration-2 underline-offset-[12px]"
+							>Digita</span
+						>l Marketing Services
+					</h2>
 				</div>
-				<div class="flex pt-3 items-center justify-center">
-					<h2>Website</h2>
+				<div class="flex pt-3 items-center justify-start">
+					<h2>
+						<span
+							class="underline decoration-orange-600 decoration-2 underline-offset-[12px]"
+							>Webs</span
+						>ite Routes
+					</h2>
+				</div>
+				<div class="flex pt-3 items-center justify-start">
+					<h2>
+						<span
+							class="underline decoration-orange-600 decoration-2 underline-offset-[12px]"
+							>Indust</span
+						>ries
+					</h2>
 				</div>
 			</div>
-			<div class="grid grid-cols-5">
+			<div class="grid grid-cols-4">
 				<div
 					v-for="(serList, i) in services"
 					:key="i"
@@ -47,7 +76,7 @@ let websiteRoutes = [
 					<div
 						v-for="(serv, j) in serList"
 						:key="j"
-						class="flex items-center justify-center pt-3 last:pb-3"
+						class="flex items-center justify-start pl-[10%] pt-3 last:pb-3"
 					>
 						{{ serv.name }}
 					</div>
@@ -60,19 +89,25 @@ let websiteRoutes = [
 					<div
 						v-for="(rte, j) in webList"
 						:key="j"
-						class="flex items-center justify-center pt-3 last:pb-3"
+						class="flex items-center justify-start pt-3 last:pb-3"
 					>
 						<a :href="rte.url" class="no-underline">{{
 							rte.name
 						}}</a>
 					</div>
 				</div>
+				<div class="flex flex-col">
+					<div
+						v-for="(ids, i) in industryServices"
+						:key="i"
+						class="flex items-center justify-start pt-3 last:pb-3"
+					>
+						{{ ids.name }}
+					</div>
+				</div>
 			</div>
 		</section>
 		<section id="footer">
-			<div id="copyright">
-				<p>Copyright © 2024 - SR E-Business Solutions</p>
-			</div>
 			<div>
 				<div v-for="(ico, i) in iconsInfo" :key="i">
 					<a :href="ico.url" target="_blank">
@@ -85,22 +120,18 @@ let websiteRoutes = [
 </template>
 <style scoped>
 * {
-	@apply font-mono;
+	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+		Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+		sans-serif;
 }
 #sr-pages {
-	@apply bg-emerald-950 border-emerald-900 h-auto text-white;
-	border-width: 0px;
-	border-top-width: 1px;
-	border-top-style: solid;
+	@apply bg-neutral-800 h-auto text-white;
 }
 #footer {
-	@apply bg-emerald-950 border-emerald-900 h-[5rem] grid grid-cols-2 text-white;
-	border-width: 0px;
-	border-top-width: 1px;
-	border-top-style: solid;
+	@apply bg-neutral-800 h-[5rem] text-white;
 }
 #footer > div {
-	@apply flex items-center justify-end pr-20 gap-x-4;
+	@apply flex items-center justify-start pl-10 gap-x-4;
 }
 a {
 	color: white;
