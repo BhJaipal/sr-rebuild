@@ -5,6 +5,8 @@ let iconsInfo = [
 		name: "mdi:linkedin",
 		url: "https://www.linkedin.com/company/sr-e-business-solutions",
 	},
+	{ name: "mdi:phone", url: "tel:+91-8432716178" },
+	{ name: "mdi:email", url: "mailto:srbusinesssolutions@gmail.com" },
 ];
 let services = [
 	[
@@ -22,7 +24,8 @@ let services = [
 let websiteRoutes = [
 	[
 		{ name: "Home", url: "/" },
-		{ name: "About and Contact us", url: "/about" },
+		{ name: "About us", url: "/about" },
+		{ name: "contact us", url: "/contact" },
 		{ name: "Admin login", url: "/admin-login" },
 		{ name: "Admin dashboard", url: "/admin-dashboard" },
 		{ name: "User form", url: "/user-form" },
@@ -42,6 +45,7 @@ let industryServices = [
 			<div class="grid grid-cols-4">
 				<div
 					class="flex pt-3 items-center justify-start pl-[20%] col-span-2"
+					aria-label="Digital Marketing services"
 				>
 					<h2>
 						<span
@@ -50,7 +54,10 @@ let industryServices = [
 						>l Marketing Services
 					</h2>
 				</div>
-				<div class="flex pt-3 items-center justify-start">
+				<div
+					class="flex pt-3 items-center justify-start"
+					aria-label="Website Routes"
+				>
 					<h2>
 						<span
 							class="underline decoration-orange-600 decoration-2 underline-offset-[12px]"
@@ -58,7 +65,10 @@ let industryServices = [
 						>ite Routes
 					</h2>
 				</div>
-				<div class="flex pt-3 items-center justify-start">
+				<div
+					class="flex pt-3 items-center justify-start"
+					aria-label="Industries"
+				>
 					<h2>
 						<span
 							class="underline decoration-orange-600 decoration-2 underline-offset-[12px]"
@@ -77,6 +87,7 @@ let industryServices = [
 						v-for="(serv, j) in serList"
 						:key="j"
 						class="flex items-center justify-start pl-[10%] pt-3 last:pb-3"
+						:aria-label="serv.name"
 					>
 						{{ serv.name }}
 					</div>
@@ -90,6 +101,7 @@ let industryServices = [
 						v-for="(rte, j) in webList"
 						:key="j"
 						class="flex items-center justify-start pt-3 last:pb-3"
+						:aria-label="rte.name"
 					>
 						<a :href="rte.url" class="no-underline">{{
 							rte.name
@@ -101,6 +113,7 @@ let industryServices = [
 						v-for="(ids, i) in industryServices"
 						:key="i"
 						class="flex items-center justify-start pt-3 last:pb-3"
+						:aria-label="ids.name"
 					>
 						{{ ids.name }}
 					</div>
@@ -109,7 +122,11 @@ let industryServices = [
 		</section>
 		<section id="footer">
 			<div>
-				<div v-for="(ico, i) in iconsInfo" :key="i">
+				<div
+					v-for="(ico, i) in iconsInfo"
+					:key="i"
+					:aria-label="ico.name"
+				>
 					<a :href="ico.url" target="_blank">
 						<Icon :name="ico.name" size="2rem"
 					/></a>
@@ -118,12 +135,14 @@ let industryServices = [
 		</section>
 	</footer>
 </template>
-<style scoped>
+<style>
 * {
 	font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
 		Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
 		sans-serif;
 }
+</style>
+<style scoped>
 #sr-pages {
 	@apply bg-neutral-800 h-auto text-white;
 }
