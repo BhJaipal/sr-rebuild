@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import usePaletteState from "~/composables/palette";
+
 let ui = {
 	color: {
 		transparent: {
@@ -34,6 +36,7 @@ const groups = ref([
 		commands: websiteRoutes,
 	},
 ]);
+let palleteToggle = usePaletteState();
 let isCommandPaletteOpen = ref(false);
 </script>
 <template>
@@ -103,7 +106,23 @@ let isCommandPaletteOpen = ref(false);
 						aria-label="command palette search"
 						color="transparent"
 						@click="isCommandPaletteOpen = true"
+						v-if="palleteToggle"
 					/>
+					<VButton
+						v-else
+						:onclick="() => (isCommandPaletteOpen = true)"
+						bg-color="blue-800"
+						label="Search..."
+						class="h-fit my-auto"
+						prepend-icon="i-heroicons-magnifying-glass"
+					>
+						<template #trailing>
+							<UKbd :ui="{ background: 'bg-blue-900' }"
+								>Ctrl</UKbd
+							>
+							<UKbd :ui="{ background: 'bg-blue-900' }">K</UKbd>
+						</template>
+					</VButton>
 				</div>
 			</div>
 			<UModal v-model="isCommandPaletteOpen">
