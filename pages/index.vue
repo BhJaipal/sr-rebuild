@@ -22,12 +22,6 @@ let { data } = useAsyncData("info", () =>
 		]
 	>;
 };
-type Node = {
-	tag: string;
-	type: string;
-	children?: Node[];
-	value?: string;
-};
 let bodyDoc = useAsyncData("home", () =>
 	queryContent("/").find()
 ) as unknown as {
@@ -36,14 +30,12 @@ let bodyDoc = useAsyncData("home", () =>
 			{
 				title: string;
 				description: string;
-				body: {
-					children: { tag: string; type: string; children: Node[] }[];
-				};
+				services: string[];
 			}
 		]
 	>;
 };
-console.log(bodyDoc.data.value[0]);
+console.log(bodyDoc.data.value);
 
 import usePaletteState from "~/composables/palette";
 let palette = usePaletteState();
@@ -64,12 +56,11 @@ let palette = usePaletteState();
 			<div>
 				<ul id="list">
 					<li
-						v-for="(el, i) in bodyDoc.data.value[0].body.children[2]
-							.children"
+						v-for="(el, i) in bodyDoc.data.value[0].services"
 						:key="i"
 						class="text-center"
 					>
-						{{ el.children ? el.children[0].value : "" }}
+						{{ el }}
 					</li>
 				</ul>
 			</div>

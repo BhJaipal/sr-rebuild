@@ -25,7 +25,7 @@ let websiteRoutes = [
 	[
 		{ name: "Home", url: "/" },
 		{ name: "About us", url: "/about" },
-		{ name: "contact us", url: "/contact" },
+		{ name: "Contact us", url: "/contact" },
 		{ name: "Admin login", url: "/admin-login" },
 		{ name: "Admin dashboard", url: "/admin-dashboard" },
 		{ name: "User form", url: "/user-form" },
@@ -40,7 +40,7 @@ let industryServices = [
 ];
 </script>
 <template>
-	<footer class="fixed bottom-0 left-0 w-full">
+	<footer class="absolute bottom-0 left-0 w-full">
 		<section id="sr-pages" class="flex flex-col">
 			<div class="grid grid-cols-4">
 				<div
@@ -103,9 +103,11 @@ let industryServices = [
 						class="flex items-center justify-start pt-3 last:pb-3"
 						:aria-label="rte.name"
 					>
-						<a :href="rte.url" class="no-underline">{{
-							rte.name
-						}}</a>
+						<NuxtLink
+							:to="rte.url"
+							class="no-underline hover:text-red-600"
+							>{{ rte.name }}</NuxtLink
+						>
 					</div>
 				</div>
 				<div class="flex flex-col">

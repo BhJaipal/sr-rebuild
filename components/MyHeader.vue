@@ -111,7 +111,7 @@ let isCommandPaletteOpen = ref(false);
 					<VButton
 						v-else
 						:onclick="() => (isCommandPaletteOpen = true)"
-						bg-color="blue-800"
+						bg-color="blue-900/0"
 						label="Search..."
 						class="h-fit my-auto"
 						prepend-icon="i-heroicons-magnifying-glass"
