@@ -1,24 +1,18 @@
-import { useNuxtApp } from "nuxt/app";
-
 export default defineEventHandler(async (event) => {
 	let query = getQuery(event);
-	console.log(query);
 
 	const name = query["name"];
 	const email = query["email"];
 	const password = query["password"];
 
-	console.log(name, email, password);
-
-	let out = await useNuxtApp().$useGQLFetch<{
-		Admins: {
-			name: string;
-			email: string;
-			pass: string;
-		}[];
-	}>(
-		"http://localhost:3300/",
-		`#graphql
+	let res = await fetch("http://localhost:3300/", {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		},
+		body: JSON.stringify({
+			query: `#graphql
 		query {
 			Admins {
 				name
@@ -26,9 +20,10 @@ export default defineEventHandler(async (event) => {
 				email
 			}
 		}
-		`
-	);
-	console.log(out.data ? out.data.Admins : out.error);
+		`,
+		}),
+	});
+	let out = await res.json();
 	if (out.data) {
 		for (let ad of out.data.Admins) {
 			if (
