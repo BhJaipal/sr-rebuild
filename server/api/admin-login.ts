@@ -18,12 +18,17 @@ export default defineEventHandler(async (event) => {
 				name
 				pass
 				email
+				position
 			}
 		}
 		`,
 		}),
 	});
-	let out = await res.json();
+	let out: {
+		data: {
+			Admins: AdminType[];
+		};
+	} = await res.json();
 	if (out.data) {
 		for (let ad of out.data.Admins) {
 			if (
@@ -36,17 +41,23 @@ export default defineEventHandler(async (event) => {
 				return {
 					status: 200,
 					message: "Success",
+					admin: {
+						name: ad.name,
+						email: ad.email,
+						pass: ad.pass,
+						position: ad.position,
+					},
 				};
 			}
 		}
 		return {
-			status: 400,
-			message: "Login failed",
+			status: 403,
+			message: "Invalid name, email or password",
 		};
 	} else {
 		return {
-			status: 401,
-			message: "No admin database",
+			status: 503,
+			message: "Service unavailable",
 		};
 	}
 });

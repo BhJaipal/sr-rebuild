@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<Title>Admin Login</Title>
 		<div class="text-center text-5xl font-extrabold my-10">
 			<span
 				class="underline-offset-8 decoration-2 underline decoration-red-500"
@@ -8,9 +9,15 @@
 		</div>
 		<div
 			class="z-10 shadow-md w-[40%] mx-auto h-80 shadow-black mb-20"
-			v-if="submitted.status == 0"
+			v-if="submitted.status == 0 || submitted.status == 403"
 		>
 			<UForm :state="adminInput" @submit="onsubmit" class="space-y-4">
+				<div
+					v-if="submitted.status == 403"
+					class="text-red-500 text-center mx-auto"
+				>
+					{{ submitted.message }}
+				</div>
 				<UFormGroup
 					label="Name"
 					name="name"
@@ -23,7 +30,12 @@
 					name="email"
 					class="w-1/2 mx-auto text-lg"
 				>
-					<UInput v-model="adminInput.email" color="red" :ui="ui" />
+					<UInput
+						v-model="adminInput.email"
+						type="email"
+						color="red"
+						:ui="ui"
+					/>
 				</UFormGroup>
 				<UFormGroup
 					label="Password"
@@ -33,6 +45,7 @@
 					<UInput
 						v-model="adminInput.password"
 						color="red"
+						type="password"
 						:ui="ui"
 					/>
 				</UFormGroup>
@@ -54,8 +67,13 @@
 				</UFormGroup>
 			</UForm>
 		</div>
-		<div class="mx-auto flex-col text-center justify-center" v-else>
-			<div class="text-3xl text-red-800">{{ submitted.status }}</div>
+		<div
+			class="mx-auto flex-col text-center justify-center"
+			v-else-if="submitted.status == 503"
+		>
+			<div class="text-5xl text-red-800 font-bold">
+				{{ submitted.status }}
+			</div>
 			<h1 class="text-white">{{ submitted.message }}</h1>
 		</div>
 	</div>
@@ -79,14 +97,27 @@ let adminInput = reactive({
 let submitted = reactive({ status: 0, message: "" });
 watch(submitted, (val: any) => console.log(val));
 async function onsubmit() {
-	console.dir(adminInput);
 	if (!(adminInput.email && adminInput.name && adminInput.password)) return;
 
-	let result = await $fetch<{ status: number; message: string }>(
+	let result = await $fetch<{
+		status: number;
+		message: string;
+		admin?: AdminType;
+	}>(
 		`/api/admin-login?name=${adminInput.name}&email=${adminInput.email}&password=${adminInput.password}`
 	);
 	if (!(result.status && result.message)) return;
 	submitted.status = result.status;
 	submitted.message = result.message;
+	if (submitted.status == 200 && result.admin != undefined) {
+		let admin = useCookie<AdminType>("current-admin");
+		admin.value = {
+			name: result.admin.name,
+			email: result.admin.email,
+			pass: result.admin.pass,
+			position: result.admin.position,
+		};
+		return navigateTo("/admin-dashboard");
+	}
 }
 </script>
