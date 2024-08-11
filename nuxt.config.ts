@@ -4,7 +4,7 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 	tailwindcss: {
 		cssPath: "./app.css",
-		configPath: "./tailwind.config.js",
+		configPath: "./tailwind.config.ts",
 	},
 	app: {
 		head: {
@@ -17,6 +17,6 @@ export default defineNuxtConfig({
 		"@nuxt/image",
 		"tailwindcss",
 		"@pinia/nuxt",
-		"nuxt-icon",
+		"@nuxt/icon",
 	],
 });

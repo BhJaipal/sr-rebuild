@@ -6,7 +6,10 @@
 				>Admi</span
 			>n Login
 		</div>
-		<div class="z-10 shadow-md w-[40%] mx-auto h-80 shadow-black mb-20">
+		<div
+			class="z-10 shadow-md w-[40%] mx-auto h-80 shadow-black mb-20"
+			v-if="submitted.status == 0"
+		>
 			<UForm :state="adminInput" @submit="onsubmit" class="space-y-4">
 				<UFormGroup
 					label="Name"
@@ -51,6 +54,10 @@
 				</UFormGroup>
 			</UForm>
 		</div>
+		<div class="mx-auto flex-col text-center justify-center" v-else>
+			<div class="text-3xl text-red-800">{{ submitted.status }}</div>
+			<h1 class="text-white">{{ submitted.message }}</h1>
+		</div>
 	</div>
 </template>
 <script setup lang="ts">
@@ -60,7 +67,7 @@ definePageMeta({
 let ui = {
 	color: {
 		red: {
-			outline: "focus:ring-red-500 ring-transparent bg-slate-900",
+			outline: "focus:ring-red-500 ring-transparent bg-neutral-700",
 		},
 	},
 };
@@ -69,7 +76,17 @@ let adminInput = reactive({
 	email: "",
 	password: "",
 });
-function onsubmit() {
+let submitted = reactive({ status: 0, message: "" });
+watch(submitted, (val: any) => console.log(val));
+async function onsubmit() {
 	console.dir(adminInput);
+	if (!(adminInput.email && adminInput.name && adminInput.password)) return;
+
+	let result = await $fetch<{ status: number; message: string }>(
+		`/api/admin-login?name=${adminInput.name}&email=${adminInput.email}&password=${adminInput.password}`
+	);
+	if (!(result.status && result.message)) return;
+	submitted.status = result.status;
+	submitted.message = result.message;
 }
 </script>
