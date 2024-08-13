@@ -10,6 +10,9 @@ declare global {
 		email: string;
 		pass: string;
 		position: "manager" | "boss" | "employee";
+		_id: {
+			id: number[];
+		};
 	}
 }
 export {};

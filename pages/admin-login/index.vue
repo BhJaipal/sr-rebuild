@@ -95,7 +95,6 @@ let adminInput = reactive({
 	password: "",
 });
 let submitted = reactive({ status: 0, message: "" });
-watch(submitted, (val: any) => console.log(val));
 async function onsubmit() {
 	if (!(adminInput.email && adminInput.name && adminInput.password)) return;
 
@@ -116,6 +115,7 @@ async function onsubmit() {
 			email: result.admin.email,
 			pass: result.admin.pass,
 			position: result.admin.position,
+			_id: result.admin._id,
 		};
 		return navigateTo("/admin-dashboard");
 	}

@@ -85,7 +85,16 @@
 		>
 			<span
 				class="underline-offset-8 decoration-2 underline decoration-red-500"
-				>Adding Employee failed</span
+				>Employee Infomation Missing</span
+			>
+		</div>
+		<div
+			class="text-center text-5xl font-extrabold my-10"
+			v-else-if="out.status == 500"
+		>
+			<span
+				class="underline-offset-8 decoration-2 underline decoration-red-500"
+				>Server error, Could not add employee</span
 			>
 		</div>
 		<div v-else class="text-center text-green-500 text-5xl font-bold mt-5">
@@ -95,13 +104,10 @@
 </template>
 <script setup lang="ts">
 definePageMeta({
-	middleware: function (to, from) {
+	middleware: function (_: any, from: { fullPath: any }) {
 		let adminLoggedIn = useCookie<AdminType>("current-admin");
 		console.log(adminLoggedIn);
-		if (
-			!adminLoggedIn.value ||
-			adminLoggedIn.value.position == "employee"
-		) {
+		if (!adminLoggedIn || adminLoggedIn.value.position == "employee") {
 			console.log(adminLoggedIn.value);
 			return navigateTo(from.fullPath);
 		}
@@ -112,9 +118,8 @@ let options =
 	adminLoggedIn.value.position == "boss"
 		? ["manager", "employee"]
 		: ["employee"];
-console.log(options);
 
-let adminData = reactive<AdminType>({
+let adminData = reactive<Omit<AdminType, "_id">>({
 	name: "",
 	email: "",
 	pass: "",
@@ -130,9 +135,9 @@ let ui = {
 let out = reactive({ status: 0 });
 watch(out, (val) => {
 	if (val.status == 200) {
-		// setTimeout(() => {
-		// 	navigateTo("/admin-dashboard");
-		// }, 1500);
+		setTimeout(() => {
+			navigateTo("/admin-dashboard");
+		}, 1500);
 	}
 });
 async function onsubmit() {

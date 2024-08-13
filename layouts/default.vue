@@ -2,6 +2,6 @@
 	<div>
 		<my-header />
 		<slot />
-		<!-- <my-footer /> -->
+		<my-footer />
 	</div>
 </template>

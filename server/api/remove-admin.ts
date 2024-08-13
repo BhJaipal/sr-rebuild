@@ -1,10 +1,11 @@
 export default defineEventHandler(async (event) => {
 	let query = getQuery(event);
-	const name = query["name"];
-	const email = query["email"];
-	const position = query["position"];
-	const pass = query["pass"];
-	if (!(name && email && position && pass)) return { status: 400 };
+	let id = query["id"];
+	if (!id) return { status: 400 };
+	let _id = id
+		.toString()
+		.split("-", (id as string).length)
+		.map((el) => Number(el));
 	let res = await fetch("http://localhost:3300/", {
 		method: "POST",
 		headers: {
@@ -13,27 +14,28 @@ export default defineEventHandler(async (event) => {
 		},
 		body: JSON.stringify({
 			query: `#graphql
-				mutation AddEmployee($empInfo: EmpInfo!) {
-					AddEmployee(empInfo: $empInfo) {
+				mutation RemoveAdmin($employee: _RemoveEmployee!) {
+					RemoveAdmin(employee: $employee) {
 						status
 					}
 				}`,
 			variables: {
-				empInfo: {
-					position: position,
-					pass: pass,
-					name: name,
-					email: email,
+				employee: {
+					_id: {
+						id: _id,
+					},
 				},
 			},
 		}),
 	});
 	let output: {
 		data: {
-			AddEmployee: {
+			RemoveAdmin: {
 				status: 200 | 500;
 			};
 		};
 	} = await res.json();
-	return output.data.AddEmployee;
+	console.log(output);
+
+	return output.data.RemoveAdmin;
 });

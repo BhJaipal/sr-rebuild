@@ -2,6 +2,6 @@
 @tailwind utilities;
 
 body {
-	@apply p-0 m-0;
+	@apply p-0 m-0 font-sans overflow-y-scroll;
 	background-color: rgb(30, 30, 30);
 }

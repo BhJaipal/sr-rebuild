@@ -19,6 +19,9 @@ export default defineEventHandler(async (event) => {
 				pass
 				email
 				position
+				_id {
+					id
+				}
 			}
 		}
 		`,
@@ -46,6 +49,7 @@ export default defineEventHandler(async (event) => {
 						email: ad.email,
 						pass: ad.pass,
 						position: ad.position,
+						_id: ad._id,
 					},
 				};
 			}

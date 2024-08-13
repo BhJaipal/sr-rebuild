@@ -1,10 +1,15 @@
 export default defineEventHandler(async (event) => {
 	let query = getQuery(event);
+	let id = query["id"];
 	const name = query["name"];
 	const email = query["email"];
-	const position = query["position"];
-	const pass = query["pass"];
-	if (!(name && email && position && pass)) return { status: 400 };
+	const password = query["pass"];
+
+	if (!id) return { status: 400 };
+	let oid = id
+		.toString()
+		.split("-", (id as string).length)
+		.map((el) => Number(el));
 	let res = await fetch("http://localhost:3300/", {
 		method: "POST",
 		headers: {
@@ -13,27 +18,31 @@ export default defineEventHandler(async (event) => {
 		},
 		body: JSON.stringify({
 			query: `#graphql
-				mutation AddEmployee($empInfo: EmpInfo!) {
-					AddEmployee(empInfo: $empInfo) {
+				mutation updateProfile($employee: EmployeeWithAll!) {
+					updateProfile(employee: $employee) {
 						status
 					}
 				}`,
 			variables: {
-				empInfo: {
-					position: position,
-					pass: pass,
+				employee: {
+					_id: {
+						id: oid,
+					},
 					name: name,
 					email: email,
+					pass: password,
 				},
 			},
 		}),
 	});
 	let output: {
 		data: {
-			AddEmployee: {
+			updateProfile: {
 				status: 200 | 500;
 			};
 		};
 	} = await res.json();
-	return output.data.AddEmployee;
+	console.log(output);
+
+	return output.data.updateProfile;
 });

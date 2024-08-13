@@ -18,17 +18,35 @@ let servicesNav = [
 	{ name: "Industries" },
 ];
 let websiteRoutes = [
-	{ id: "Home", label: "Home", href: "/" },
-	{ id: "About-us", label: "About us", href: "/about" },
-	{ id: "contact-us", label: "contact us", href: "/contact" },
-	{ id: "Admin-login", label: "Admin login", href: "/admin-login" },
+	{ id: "Home", label: "Home", click: () => navigateTo("/") },
+	{ id: "About-us", label: "About us", click: () => navigateTo("/about") },
+	{
+		id: "contact-us",
+		label: "Contact us",
+		click: () => navigateTo("/contact"),
+	},
+	{
+		id: "Admin-login",
+		label: "Admin login",
+		click: () => navigateTo("/admin-login"),
+	},
 	{
 		id: "Admin-dashboard",
 		label: "Admin dashboard",
-		href: "/admin-dashboard",
+		click: () => navigateTo("/admin-dashboard"),
 	},
-	{ id: "User-form", label: "User form", href: "/user-form" },
+	{
+		id: "User-form",
+		label: "User form",
+		click: () => navigateTo("/user-form"),
+	},
 ];
+let selected = ref(null);
+watch(selected, (val: { click: () => any }) => {
+	if (val != null) {
+		val.click();
+	}
+});
 const groups = ref([
 	{
 		key: "routes",
@@ -126,10 +144,18 @@ let isCommandPaletteOpen = ref(false);
 				</div>
 			</div>
 			<UModal v-model="isCommandPaletteOpen">
-				<UCommandPalette nullable :groups="groups" />
+				<UCommandPalette
+					nullable
+					v-model="selected"
+					:empty-state="{
+						icon: 'i-heroicons-magnifying-glass-20-solid',
+						label: 'We couldn\'t find any items.',
+						queryLabel:
+							'We couldn\'t find any items with that term. Please try again.',
+					}"
+					:groups="groups"
+				/>
 			</UModal>
 		</div>
 	</header>
 </template>
-<style scoped>
-</style>

@@ -35,7 +35,6 @@ let bodyDoc = useAsyncData("home", () =>
 		]
 	>;
 };
-console.log(bodyDoc.data.value);
 
 import usePaletteState from "~/composables/palette";
 let palette = usePaletteState();

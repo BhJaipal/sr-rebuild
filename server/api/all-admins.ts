@@ -13,6 +13,9 @@ export default defineEventHandler(async function () {
 				pass
 				email
 				position
+				_id {
+					id
+				}
 			}
 		}
 		`,
@@ -23,5 +26,6 @@ export default defineEventHandler(async function () {
 			Admins: AdminType[];
 		};
 	} = await res.json();
+
 	return out.data.Admins;
 });

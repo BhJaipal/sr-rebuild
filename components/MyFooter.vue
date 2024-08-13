@@ -40,7 +40,7 @@ let industryServices = [
 ];
 </script>
 <template>
-	<footer class="absolute bottom-0 left-0 w-full">
+	<footer class="relative bottom-0 left-0 w-full">
 		<section id="sr-pages" class="flex flex-col">
 			<div class="grid grid-cols-4">
 				<div
