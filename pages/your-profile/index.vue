@@ -34,6 +34,7 @@
 						type="submit"
 						variant="outline"
 						color="red"
+						:ui="btnUI"
 						:disabled="!changable"
 						label="Save Changes"
 					/>
@@ -100,10 +101,17 @@
 <script setup lang="ts">
 definePageMeta({
 	middleware: function (to, from) {
-		if (!useCookie<AdminType>("current-admin"))
+		if (!useCookie<AdminType>("current-admin").value)
 			return navigateTo("/admin-login");
 	},
 });
+let btnUI = {
+	color: {
+		red: {
+			outline: "bg-transparent text-red-500 border-red-500 border-solid",
+		},
+	},
+};
 let adminLogin = useCookie<AdminType>("current-admin");
 let data = reactive({
 	name: adminLogin.value.name,
@@ -135,9 +143,7 @@ let updateRes = reactive({ status: 0 });
 watch(updateRes, (val: { status: number }) => {
 	if (val && val.status != 0) {
 		updateAlert.value = true;
-		setTimeout(() => {
-			navigateTo("/admin-dashboard");
-		}, 3000);
+		if (val.status == 200) navigateTo("/admin-dashboard");
 	}
 });
 

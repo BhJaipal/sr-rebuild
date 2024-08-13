@@ -72,7 +72,7 @@ watch(updateStatus, (val) => {
 				/>
 			</div>
 			<div class="w-full">
-				<div class="text-4xl my-2 font-bold text-red-500">
+				<div class="text-4xl my-1 font-bold text-red-500">
 					{{ name }}
 				</div>
 				<div class="text-md font-bold">

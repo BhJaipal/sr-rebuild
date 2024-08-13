@@ -53,6 +53,7 @@
 					<UButton
 						type="submit"
 						color="red"
+						:ui="btnUI"
 						:disabled="
 							!(
 								adminInput.email &&
@@ -94,6 +95,13 @@ let adminInput = reactive({
 	email: "",
 	password: "",
 });
+let btnUI = {
+	color: {
+		red: {
+			outline: "bg-transparent text-red-500 border-red-500 border-solid",
+		},
+	},
+};
 let submitted = reactive({ status: 0, message: "" });
 async function onsubmit() {
 	if (!(adminInput.email && adminInput.name && adminInput.password)) return;
